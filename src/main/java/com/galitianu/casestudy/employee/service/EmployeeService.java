@@ -1,6 +1,7 @@
 package com.galitianu.casestudy.employee.service;
 
 import com.galitianu.casestudy.base.service.BaseEntityService;
+import com.galitianu.casestudy.employee.api.exception.EmployeeNotFoundException;
 import com.galitianu.casestudy.employee.mapper.EmployeeMapper;
 import com.galitianu.casestudy.employee.persistence.entity.EmployeeEntity;
 import com.galitianu.casestudy.employee.persistence.repository.EmployeeRepository;

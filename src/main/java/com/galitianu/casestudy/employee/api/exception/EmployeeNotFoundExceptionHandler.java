@@ -1,6 +1,6 @@
-package com.galitianu.casestudy.base.api.exception;
+package com.galitianu.casestudy.employee.api.exception;
 
-import com.galitianu.casestudy.employee.service.EmployeeNotFoundException;
+import com.galitianu.casestudy.base.api.exception.BaseExceptionHandler;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

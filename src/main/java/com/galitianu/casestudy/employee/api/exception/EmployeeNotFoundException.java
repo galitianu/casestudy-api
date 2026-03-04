@@ -1,4 +1,4 @@
-package com.galitianu.casestudy.employee.service;
+package com.galitianu.casestudy.employee.api.exception;
 
 import java.util.UUID;
 
