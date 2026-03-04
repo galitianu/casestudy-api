@@ -3,17 +3,15 @@ package com.galitianu.casestudy.base.service;
 import com.galitianu.casestudy.base.mapper.BaseModelEntityMapper;
 import com.galitianu.casestudy.base.persistence.entity.BaseEntity;
 import com.galitianu.casestudy.base.persistence.repository.BaseRepository;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.StreamSupport;
 
-@Getter
-@Setter
-public abstract class BaseEntityService<M extends BaseEntityModel, E extends BaseEntity> extends BaseService {
+@Transactional(readOnly = true)
+public abstract class BaseEntityService<M extends BaseEntityModel, E extends BaseEntity> {
 
     protected abstract BaseRepository<E> getRepository();
 
@@ -28,18 +26,21 @@ public abstract class BaseEntityService<M extends BaseEntityModel, E extends Bas
         return StreamSupport.stream(iterable.spliterator(), false).map(getMapper()::mapToModel).toList();
     }
 
+    @Transactional
     public M save(M m) {
         E e = getMapper().mapToEntity(m);
         e = getRepository().save(e);
         return getMapper().mapToModel(e);
     }
 
+    @Transactional
     public List<M> saveAll(List<M> ms) {
         List<E> es = getMapper().mapToEntities(ms);
         es = StreamSupport.stream(getRepository().saveAll(es).spliterator(), false).toList();
         return getMapper().mapToModels(es);
     }
 
+    @Transactional
     public void delete(M m) {
         E e = getMapper().mapToEntity(m);
         getRepository().delete(e);

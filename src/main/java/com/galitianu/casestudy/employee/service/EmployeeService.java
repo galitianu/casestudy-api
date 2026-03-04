@@ -8,10 +8,12 @@ import com.galitianu.casestudy.employee.persistence.repository.EmployeeRepositor
 import com.galitianu.casestudy.employee.service.model.Employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
 @Service
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class EmployeeService extends BaseEntityService<Employee, EmployeeEntity> {
     private final EmployeeRepository employeeRepository;
@@ -27,6 +29,7 @@ public class EmployeeService extends BaseEntityService<Employee, EmployeeEntity>
         return employeeMapper;
     }
 
+    @Transactional
     public Employee update(UUID employeeId, Employee employee) {
         Employee current = findById(employeeId)
             .orElseThrow(() -> new EmployeeNotFoundException(employeeId));
@@ -47,6 +50,7 @@ public class EmployeeService extends BaseEntityService<Employee, EmployeeEntity>
             .orElseThrow(() -> new EmployeeNotFoundException(employeeId));
     }
 
+    @Transactional
     public void deleteById(UUID employeeId) {
         Employee current = getRequired(employeeId);
         delete(current);

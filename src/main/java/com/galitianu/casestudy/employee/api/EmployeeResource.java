@@ -1,6 +1,5 @@
 package com.galitianu.casestudy.employee.api;
 
-import com.galitianu.casestudy.base.api.BaseResource;
 import com.galitianu.casestudy.employee.mapper.EmployeeMapper;
 import com.galitianu.casestudy.employee.service.EmployeeService;
 import com.galitianu.casestudy.openapi.api.EmployeeApi;
@@ -16,7 +15,7 @@ import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-public class EmployeeResource extends BaseResource implements EmployeeApi {
+public class EmployeeResource implements EmployeeApi {
     private final EmployeeService employeeService;
     private final EmployeeMapper employeeMapper;
 
