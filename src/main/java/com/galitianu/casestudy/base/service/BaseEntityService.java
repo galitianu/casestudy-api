@@ -1,6 +1,5 @@
 package com.galitianu.casestudy.base.service;
 
-
 import com.galitianu.casestudy.base.mapper.BaseModelEntityMapper;
 import com.galitianu.casestudy.base.persistence.entity.BaseEntity;
 import com.galitianu.casestudy.base.persistence.repository.BaseRepository;
@@ -45,5 +44,4 @@ public abstract class BaseEntityService<M extends BaseEntityModel, E extends Bas
         E e = getMapper().mapToEntity(m);
         getRepository().delete(e);
     }
-
 }
