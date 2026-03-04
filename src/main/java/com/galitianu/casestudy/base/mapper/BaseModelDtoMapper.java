@@ -1,7 +1,6 @@
 package com.galitianu.casestudy.base.mapper;
 
 
-import com.galitianu.casestudy.base.api.BaseEntityDto;
 import com.galitianu.casestudy.base.service.BaseEntityModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -9,40 +8,38 @@ import org.springframework.data.domain.PageImpl;
 import java.util.List;
 import java.util.Optional;
 
-public interface BaseModelDtoMapper<M extends BaseEntityModel, D extends BaseEntityDto> {
+public interface BaseModelDtoMapper<M extends BaseEntityModel, I, O> {
 
-    D mapToDto(M model);
+    O mapToResponse(M model);
 
-    M mapToModel(D dto);
+    M mapRequestToModel(I input);
 
-    default Optional<D> mapToDto(Optional<M> element) {
-        return element.map(this::mapToDto);
+    default Optional<O> mapToResponse(Optional<M> element) {
+        return element.map(this::mapToResponse);
     }
 
-    default Page<D> mapToDto(Page<M> page) {
+    default Page<O> mapToResponse(Page<M> page) {
         if (page == null) {
             return null;
         }
 
-        List<D> content = page.stream().map(this::mapToDto).toList();
+        List<O> content = page.stream().map(this::mapToResponse).toList();
         return new PageImpl<>(content, page.getPageable(), page.getTotalElements());
     }
 
-    default List<D> mapToDto(List<M> models) {
+    default List<O> mapToResponses(List<M> models) {
         if (models == null) {
             return null;
         }
 
-        return models.stream().map(this::mapToDto).toList();
+        return models.stream().map(this::mapToResponse).toList();
     }
 
-    default List<M> mapDtosToModels(List<D> dtos) {
-        if (dtos == null) {
+    default List<M> mapRequestsToModels(List<I> inputs) {
+        if (inputs == null) {
             return null;
         }
 
-        return dtos.stream().map(this::mapToModel).toList();
+        return inputs.stream().map(this::mapRequestToModel).toList();
     }
-
 }
-

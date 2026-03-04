@@ -16,7 +16,6 @@ public interface BaseModelEntityMapper<M extends BaseEntityModel, E extends Base
 
     default Optional<M> mapToModel(Optional<E> e) {
         return e.map(this::mapToModel);
-
     }
 
     default Page<M> mapToModel(Page<E> page) {

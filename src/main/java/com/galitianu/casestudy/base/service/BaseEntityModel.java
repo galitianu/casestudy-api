@@ -19,37 +19,9 @@ public class BaseEntityModel implements Versioned {
     protected ZonedDateTime created;
     protected ZonedDateTime updated;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
     @Override
     public long getVersion() {
         return version;
-    }
-
-    public void setVersion(long version) {
-        this.version = version;
-    }
-
-    public ZonedDateTime getCreated() {
-        return created;
-    }
-
-    public void setCreated(ZonedDateTime created) {
-        this.created = created;
-    }
-
-    public ZonedDateTime getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(ZonedDateTime updated) {
-        this.updated = updated;
     }
 
     public void reset() {

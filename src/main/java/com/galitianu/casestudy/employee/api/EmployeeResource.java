@@ -3,7 +3,6 @@ package com.galitianu.casestudy.employee.api;
 import com.galitianu.casestudy.base.api.BaseResource;
 import com.galitianu.casestudy.employee.mapper.EmployeeMapper;
 import com.galitianu.casestudy.employee.service.EmployeeService;
-import com.galitianu.casestudy.employee.service.model.Employee;
 import com.galitianu.casestudy.openapi.api.EmployeeApi;
 import com.galitianu.casestudy.openapi.model.EmployeeRequest;
 import com.galitianu.casestudy.openapi.model.EmployeeResponse;
@@ -23,8 +22,8 @@ public class EmployeeResource extends BaseResource implements EmployeeApi {
 
     @Override
     public ResponseEntity<EmployeeResponse> createEmployee(EmployeeRequest employeeRequest) {
-        Employee saved = employeeService.save(employeeMapper.mapToModel(employeeRequest));
-        return ResponseEntity.status(HttpStatus.CREATED).body(employeeMapper.mapToDto(saved));
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(employeeMapper.mapToResponse(employeeService.save(employeeMapper.mapRequestToModel(employeeRequest))));
     }
 
     @Override
@@ -35,23 +34,21 @@ public class EmployeeResource extends BaseResource implements EmployeeApi {
 
     @Override
     public ResponseEntity<EmployeeResponse> getEmployeeById(String employeeId) {
-        Employee employee = employeeService.getRequired(parseEmployeeId(employeeId));
-        return ResponseEntity.ok(employeeMapper.mapToDto(employee));
+        return ResponseEntity.ok(employeeMapper.mapToResponse(employeeService.getRequired(parseEmployeeId(employeeId))));
     }
 
     @Override
     public ResponseEntity<List<EmployeeResponse>> getEmployees() {
-        List<EmployeeResponse> employees = employeeService.findAll().stream()
-            .map(employeeMapper::mapToDto)
-            .toList();
-
-        return ResponseEntity.ok(employees);
+        return ResponseEntity.ok(employeeMapper.mapToResponses(employeeService.findAll()));
     }
 
     @Override
     public ResponseEntity<EmployeeResponse> updateEmployee(String employeeId, EmployeeRequest employeeRequest) {
-        Employee updated = employeeService.update(parseEmployeeId(employeeId), employeeMapper.mapToModel(employeeRequest));
-        return ResponseEntity.ok(employeeMapper.mapToDto(updated));
+        return ResponseEntity.ok(
+            employeeMapper.mapToResponse(
+                employeeService.update(parseEmployeeId(employeeId), employeeMapper.mapRequestToModel(employeeRequest))
+            )
+        );
     }
 
     private UUID parseEmployeeId(String employeeId) {
