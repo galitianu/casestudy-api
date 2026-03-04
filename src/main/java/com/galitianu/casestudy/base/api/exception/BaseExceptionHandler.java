@@ -12,8 +12,18 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class BaseExceptionHandler extends ResponseEntityExceptionHandler {
 
     protected ResponseEntity<Object> handleException(String code, Exception exception, WebRequest request, HttpStatus status) {
+        return handleError(code, exception.getMessage(), exception, request, status);
+    }
+
+    protected ResponseEntity<Object> handleError(
+        String code,
+        String message,
+        Exception exception,
+        WebRequest request,
+        HttpStatus status
+    ) {
         HttpHeaders headers = new HttpHeaders();
-        ErrorResponse body = error(code, exception.getMessage());
+        ErrorResponse body = error(code, message);
         return handleExceptionInternal(exception, body, headers, status, request);
     }
 

@@ -43,6 +43,19 @@ Feature: Employee API
       | annualIncome    | 99000              |
     And the created employee can be loaded again
 
+  Scenario: Reject a duplicate personnel number
+    When I create an employee with:
+      | firstName       | Duplicate            |
+      | lastName        | Person               |
+      | age             | 30                   |
+      | personnelNumber | mm1288_se            |
+      | department      | SOFTWARE_DEVELOPMENT |
+      | jobDescription  | Backend Engineer     |
+      | annualIncome    | 68000                |
+    Then the response status is 400
+    And the error response contains code "VALIDATION_ERROR"
+    And the error response message is "personnelNumber already exists"
+
   Scenario: Update an existing employee
     When I update the seeded employee with personnel number "ff4711_hr" with:
       | firstName       | Fiona                 |
@@ -62,6 +75,19 @@ Feature: Employee API
       | department      | HUMAN_RESOURCES       |
       | jobDescription  | Senior Recruiterin    |
       | annualIncome    | 56000                 |
+
+  Scenario: Reject an updated duplicate personnel number
+    When I update the seeded employee with personnel number "ff4711_hr" with:
+      | firstName       | Fiona                 |
+      | lastName        | Fischer                |
+      | age             | 27                    |
+      | personnelNumber | mm1288_se             |
+      | department      | HUMAN_RESOURCES       |
+      | jobDescription  | Recruiterin           |
+      | annualIncome    | 52000                 |
+    Then the response status is 400
+    And the error response contains code "VALIDATION_ERROR"
+    And the error response message is "personnelNumber already exists"
 
   Scenario: Delete an existing employee
     When I delete the seeded employee with personnel number "aa2376_se"
