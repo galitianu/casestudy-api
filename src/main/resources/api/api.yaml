@@ -1,0 +1,245 @@
+openapi: 3.0.3
+info:
+  title: Employee API
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080
+
+paths:
+  /employee:
+    get:
+      summary: Get all employees
+      operationId: getEmployees
+      tags:
+        - Employee
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/EmployeeResponse"
+        "400":
+          description: Invalid input (e.g., validation error)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    post:
+      summary: Create new employee
+      operationId: createEmployee
+      tags:
+        - Employee
+      requestBody:
+        description: Employee data to save
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeRequest"
+      responses:
+        "201":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+        "400":
+          description: Invalid input (e.g., validation error)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /employee/{employeeId}:
+    put:
+      summary: Update employee
+      operationId: updateEmployee
+      tags:
+        - Employee
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          description: The unique identifier of the employee
+          schema:
+            type: string
+      requestBody:
+        description: Employee data to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeRequest"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+        "400":
+          description: Invalid input (e.g., validation error)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      summary: Remove employee
+      operationId: deleteEmployee
+      tags:
+        - Employee
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          description: The unique identifier of the employee
+          schema:
+            type: string
+      responses:
+        "204":
+          description: OK
+        "400":
+          description: Invalid input (e.g., validation error)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+    get:
+      summary: Get all employees
+      operationId: getEmployeeById
+      tags:
+        - Employee
+      parameters:
+        - name: employeeId
+          in: path
+          required: true
+          description: The unique identifier of the employee
+          schema:
+            type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeeResponse"
+        "400":
+          description: Invalid input (e.g., validation error)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Employee not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    EmployeeRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+        age:
+          type: number
+        personnelNumber:
+          type: string
+        department:
+          type: string
+        jobDescription:
+          type: string
+        annualIncome:
+          type: number
+
+    EmployeeResponse:
+      type: object
+      properties:
+        id:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        age:
+          type: number
+        personnelNumber:
+          type: string
+        department:
+          type: string
+        jobDescription:
+          type: string
+        annualIncome:
+          type: number
+
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
